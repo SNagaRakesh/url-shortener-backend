@@ -1,0 +1,25 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: url_shortener_db
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+    networks:
+      - url-shortener-db
+
+volumes:
+  mysql-data:
+
+networks:
+  url-shortener-db:
