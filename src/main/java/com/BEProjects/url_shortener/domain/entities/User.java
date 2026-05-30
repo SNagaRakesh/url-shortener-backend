@@ -1,4 +1,4 @@
-package com.BEProjects.url_shortener.entities;
+package com.BEProjects.url_shortener.domain.entities;
 
 import com.BEProjects.url_shortener.domain.models.Role;
 import jakarta.persistence.*;

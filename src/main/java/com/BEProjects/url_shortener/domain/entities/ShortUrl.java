@@ -1,4 +1,4 @@
-package com.BEProjects.url_shortener.entities;
+package com.BEProjects.url_shortener.domain.entities;
 
 import jakarta.persistence.*;
 import java.time.Instant;
@@ -57,7 +57,7 @@ public class ShortUrl {
         this.originalUrl = originalUrl;
     }
 
-    public boolean isPrivate() {
+    public boolean getIsPrivate() {
         return isPrivate;
     }
 
