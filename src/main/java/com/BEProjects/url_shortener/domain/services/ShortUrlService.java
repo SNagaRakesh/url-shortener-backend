@@ -13,8 +13,10 @@ import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 public class ShortUrlService {
     private final ShortUrlRepository shortUrlRepository;
     private final EntityMapper entityMapper;
@@ -31,6 +33,8 @@ public class ShortUrlService {
     public List<ShortUrlDto> findAllPublicShortUrls() {
         return shortUrlRepository.findPublicShortUrls().stream().map(entityMapper::toShortUrlDto).toList();
     }
+
+    @Transactional
     public ShortUrlDto createShortUrl(CreateShortUrlCmd cmd) {
         if(applicationProperties.validateOriginalUrl()) {
             boolean urlExists = UrlExistanceValidator.isUrlExists(cmd.originalUrl());
@@ -49,6 +53,7 @@ public class ShortUrlService {
         shortUrlRepository.save(shortUrl);
         return entityMapper.toShortUrlDto(shortUrl);
     }
+
 
     public String generateUniqueShortKey() {
         String shortKey;
@@ -69,5 +74,20 @@ public class ShortUrlService {
             sb.append(characters.charAt(random.nextInt(characters.length())));
         }
         return sb.toString();
+    }
+
+    @Transactional
+    public Optional<ShortUrlDto> accessShortUrl(String shortKey) {
+        Optional<ShortUrl> shortUrlOptional = shortUrlRepository.findByShortKey(shortKey);
+        if(shortUrlOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        ShortUrl shortUrl = shortUrlOptional.get();
+        if(shortUrl.getExpiresAt() != null && shortUrl.getExpiresAt().isBefore(Instant.now())) {
+            return Optional.empty();
+        }
+        shortUrl.setClickCount(shortUrl.getClickCount()+1);
+        shortUrlRepository.save(shortUrl);
+        return shortUrlOptional.map(entityMapper::toShortUrlDto);
     }
 }
