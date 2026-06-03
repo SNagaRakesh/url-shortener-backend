@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultrag.net.nz/thymeleaf/layout" lang="">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultrag.net.nz/thymeleaf/layout"
+      lang="">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,13 +18,14 @@
 <!--    Bootstrap CSS WebJars-->
 
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 
 </head>
 <body>
 
 <!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container-fluid">
+    <div class="container">
 
         <!-- Brand -->
         <a class="navbar-brand" th:href="@{/}">URL Shortener</a>
@@ -45,11 +49,11 @@
             <!-- Left Side Links -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link" href="#">My URLs</a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link" href="#">Admin Dashboard</a>
                 </li>
 
@@ -58,12 +62,18 @@
             <!-- Right Side Links -->
             <ul class="navbar-nav ms-auto">
 
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="isAnonymous()">
                     <a class="nav-link" href="#">Login</a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="isAnonymous()">
                     <a class="nav-link" href="#">Register</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="nav-link">Logout</button>
+                    </form>
                 </li>
 
             </ul>
