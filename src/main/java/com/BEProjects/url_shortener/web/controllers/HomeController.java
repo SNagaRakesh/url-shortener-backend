@@ -1,6 +1,7 @@
 package com.BEProjects.url_shortener.web.controllers;
 
 import com.BEProjects.url_shortener.ApplicationProperties;
+import com.BEProjects.url_shortener.domain.entities.User;
 import com.BEProjects.url_shortener.domain.exceptions.ShortUrlNotFoundException;
 import com.BEProjects.url_shortener.domain.models.CreateShortUrlCmd;
 import com.BEProjects.url_shortener.domain.models.ShortUrlDto;
@@ -24,14 +25,20 @@ public class HomeController {
 
     private final ShortUrlService shortUrlService;
     private final ApplicationProperties applicationProperties;
+    private final SecurityUtils securityUtils;
 
-    public HomeController(ShortUrlService shortUrlService, ApplicationProperties applicationProperties) {
+    public HomeController(ShortUrlService shortUrlService,
+                          ApplicationProperties applicationProperties,
+                          SecurityUtils securityUtils) {
         this.shortUrlService = shortUrlService;
         this.applicationProperties = applicationProperties;
+        this.securityUtils = securityUtils;
     }
 
     @GetMapping("/")
     public String home(Model model) {
+
+        User currentUser = securityUtils.getCurrentUser();
 
         List<ShortUrlDto> shortUrls = shortUrlService.findAllPublicShortUrls();
         model.addAttribute("shortUrls", shortUrls);
@@ -82,5 +89,10 @@ public class HomeController {
         ShortUrlDto shortUrlDto = shortUrlDtoOptional.get();
 
         return "redirect:" + shortUrlDto.originalUrl();
+    }
+
+    @GetMapping("/login")
+    String loginForm() {
+        return "login";
     }
 }

@@ -8,10 +8,10 @@ import java.net.URI;
 import java.net.URL;
 
 
-public class UrlExistanceValidator {
+public class UrlExistenceValidator {
 
 
-    private static final Logger log =  LoggerFactory.getLogger(UrlExistanceValidator.class);
+    private static final Logger log =  LoggerFactory.getLogger(UrlExistenceValidator.class);
 
     public static boolean isUrlExists(String utlString) {
         try {

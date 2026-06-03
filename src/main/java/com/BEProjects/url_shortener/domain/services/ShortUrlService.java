@@ -37,7 +37,7 @@ public class ShortUrlService {
     @Transactional
     public ShortUrlDto createShortUrl(CreateShortUrlCmd cmd) {
         if(applicationProperties.validateOriginalUrl()) {
-            boolean urlExists = UrlExistanceValidator.isUrlExists(cmd.originalUrl());
+            boolean urlExists = UrlExistenceValidator.isUrlExists(cmd.originalUrl());
             if(!urlExists) {
                 throw new RuntimeException("Invalid URL " + cmd.originalUrl());
             }
