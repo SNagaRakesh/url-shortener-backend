@@ -1,7 +1,6 @@
 package com.BEProjects.url_shortener.domain.repositories;
 
 import com.BEProjects.url_shortener.domain.entities.ShortUrl;
-import com.BEProjects.url_shortener.domain.models.ShortUrlDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
