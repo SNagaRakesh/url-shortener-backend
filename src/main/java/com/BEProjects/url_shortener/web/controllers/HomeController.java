@@ -38,13 +38,18 @@ public class HomeController {
 
             Model model) {
 
-        PagedResult<ShortUrlDto> shortUrls = shortUrlService.findAllPublicShortUrls(page, applicationProperties.pageSize());
-        model.addAttribute("shortUrls", shortUrls);
-        model.addAttribute("baseUrl", applicationProperties.baseUrl());
+        this.addShortUrlsDataToModel(model, page);
+
         model.addAttribute("createShortUrlForm",
                 new CreateShortUrlForm("", false, null));
 
         return "home";
+    }
+
+    private void addShortUrlsDataToModel(Model model, int pageNo) {
+        PagedResult<ShortUrlDto> shortUrls = shortUrlService.findAllPublicShortUrls(pageNo, applicationProperties.pageSize());
+        model.addAttribute("shortUrls", shortUrls);
+        model.addAttribute("baseUrl", applicationProperties.baseUrl());
     }
 
     @PostMapping("/short-urls")
@@ -55,9 +60,7 @@ public class HomeController {
                                  Model model){
         if (bindingResult.hasErrors()) {
 
-            PagedResult<ShortUrlDto> shortUrls = shortUrlService.findAllPublicShortUrls(1, applicationProperties.pageSize());
-            model.addAttribute("shortUrls", shortUrls);
-            model.addAttribute("baseUrl", applicationProperties.baseUrl());
+            this.addShortUrlsDataToModel(model, 1);
 
             return "home";
         }
