@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -50,6 +51,38 @@ public class HomeController {
         PagedResult<ShortUrlDto> shortUrls = shortUrlService.findAllPublicShortUrls(pageNo, applicationProperties.pageSize());
         model.addAttribute("shortUrls", shortUrls);
         model.addAttribute("baseUrl", applicationProperties.baseUrl());
+        model.addAttribute("paginationUrl", "/");
+    }
+
+    @GetMapping("/my-urls")
+    public String showUserUrls(@RequestParam(defaultValue = "1") int page,
+                               Model model) {
+        var currUserId = securityUtils.getCurrentUserId();
+
+        PagedResult<ShortUrlDto> myUrls = shortUrlService.getUserShortUrls(currUserId, page, applicationProperties.pageSize());
+        model.addAttribute("shortUrls", myUrls);
+        model.addAttribute("baseUrl", applicationProperties.baseUrl());
+        model.addAttribute("paginationUrl", "/my-urls");
+        return "my-urls";
+    }
+
+    @PostMapping("/delete-urls")
+    public String deleteUrls(
+            @RequestParam(value = "ids", required = false)
+            List<Long> ids,
+            RedirectAttributes redirectAttributes) {
+        if(ids == null || ids.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "No URLs selected for deletion");
+            return "redirect:/my-urls";
+        }
+        try {
+            var userId = securityUtils.getCurrentUserId();
+            shortUrlService.deleteUserShortUrls(ids, userId);
+            redirectAttributes.addFlashAttribute("successMessage", "Selected URLs have been deleted successfully");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error deleting URLs: " + e.getMessage());
+        }
+        return "redirect:/my-urls";
     }
 
     @PostMapping("/short-urls")
