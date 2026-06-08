@@ -4,6 +4,7 @@ import com.BEProjects.url_shortener.ApplicationProperties;
 import com.BEProjects.url_shortener.domain.models.PagedResult;
 import com.BEProjects.url_shortener.domain.models.ShortUrlDto;
 import com.BEProjects.url_shortener.domain.services.ShortUrlService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/admin")
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
     private final ShortUrlService shortUrlService;
     private final ApplicationProperties properties;
