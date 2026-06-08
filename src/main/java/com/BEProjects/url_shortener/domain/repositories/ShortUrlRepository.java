@@ -24,4 +24,7 @@ public interface ShortUrlRepository extends JpaRepository<ShortUrl, Long> {
 
     @Modifying
     void deleteByIdInAndCreatedById(List<Long> ids, Long userId);
+
+    @Query("select u from ShortUrl u left join fetch u.createdBy")
+    Page<ShortUrl> findAllShortUrls(Pageable pageable);
 }

@@ -141,4 +141,10 @@ public class ShortUrlService {
             shortUrlRepository.deleteByIdInAndCreatedById(ids, userId);
         }
     }
+
+    public PagedResult<ShortUrlDto> findAllShortUrls(int page, int pageSize) {
+        Pageable pageable = getPageable(page, pageSize);
+        var shortUrlsPage = shortUrlRepository.findAllShortUrls(pageable).map(entityMapper::toShortUrlDto);
+        return PagedResult.from(shortUrlsPage);
+    }
 }
