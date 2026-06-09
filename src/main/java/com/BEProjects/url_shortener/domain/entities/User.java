@@ -2,6 +2,9 @@ package com.BEProjects.url_shortener.domain.entities;
 
 import com.BEProjects.url_shortener.domain.models.Role;
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,7 +29,7 @@ public class User {
     private Role role;
 
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private Instant createdAt = Instant.now();
 
     public Long getId() {
         return id;
@@ -68,11 +71,11 @@ public class User {
         this.role = role;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 }
