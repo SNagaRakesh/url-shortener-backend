@@ -1,7 +1,6 @@
 package com.BEProjects.url_shortener.domain.repositories;
 
 import com.BEProjects.url_shortener.domain.entities.ShortUrl;
-import com.BEProjects.url_shortener.domain.entities.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

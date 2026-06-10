@@ -1,17 +1,17 @@
 package com.BEProjects.url_shortener.web.controllers;
 
 import com.BEProjects.url_shortener.domain.entities.User;
-import com.BEProjects.url_shortener.domain.repositories.UserRepository;
+import com.BEProjects.url_shortener.domain.services.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SecurityUtils {
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public SecurityUtils(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public SecurityUtils(UserService userService) {
+        this.userService = userService;
     }
 
     public User getCurrentUser() {
@@ -19,12 +19,13 @@ public class SecurityUtils {
 
         if(authentication != null && authentication.isAuthenticated()) {
             String email = authentication.getName();
-            return userRepository.findByEmail(email).orElse(null);
+            return userService.findByEmail(email).orElse(null);
         }
         return null;
     }
 
     public Long getCurrentUserId() {
-        return getCurrentUser().getId();
+        User user = getCurrentUser();
+        return user != null ? user.getId() : null;
     }
 }

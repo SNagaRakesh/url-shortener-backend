@@ -2,7 +2,6 @@ package com.BEProjects.url_shortener.domain.services;
 
 import com.BEProjects.url_shortener.domain.entities.User;
 import com.BEProjects.url_shortener.domain.repositories.UserRepository;
-import org.jspecify.annotations.NonNull;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

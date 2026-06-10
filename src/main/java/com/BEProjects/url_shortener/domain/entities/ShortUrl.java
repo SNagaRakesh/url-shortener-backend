@@ -1,6 +1,8 @@
 package com.BEProjects.url_shortener.domain.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
+
 import java.time.Instant;
 
 @Entity
@@ -11,13 +13,14 @@ public class ShortUrl {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "short_key", unique = true, nullable = false, length = 20)
+    @Column(name = "short_key", unique = true, nullable = false, length = 10)
     private String shortKey;
 
-    @Column(name = "original_url", nullable = false, length = 2048)
+    @Column(name = "original_url", nullable = false, length = Integer.MAX_VALUE)
     private String originalUrl;
 
     @Column(name = "is_private", nullable = false)
+    @ColumnDefault("false")
     private boolean isPrivate;
 
     @Column(name = "expires_at")
@@ -27,10 +30,12 @@ public class ShortUrl {
     @JoinColumn(name = "created_by")
     private User createdBy;
 
+    @ColumnDefault("0")
     @Column(name = "click_count", nullable = false)
-    private Long clickCount = 0L;
+    private Long clickCount;
 
     @Column(name = "created_at", nullable = false)
+    @ColumnDefault("CURRENT_TIMESTAMP")
     private Instant createdAt;
 
     public Long getId() {

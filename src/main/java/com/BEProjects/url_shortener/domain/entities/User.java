@@ -2,10 +2,10 @@ package com.BEProjects.url_shortener.domain.entities;
 
 import com.BEProjects.url_shortener.domain.models.Role;
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -13,19 +13,21 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email", unique = true, nullable = false, length = 100)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = false, length = 100)
     private String password;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @Column(name = "role", nullable = false)
+    @Column(name = "role", nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
+    @ColumnDefault("'ROLE_USER'")
     private Role role;
 
     @Column(name = "created_at", nullable = false)

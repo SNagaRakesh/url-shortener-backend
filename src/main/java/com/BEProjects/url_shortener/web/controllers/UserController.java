@@ -1,6 +1,5 @@
 package com.BEProjects.url_shortener.web.controllers;
 
-import com.BEProjects.url_shortener.domain.entities.User;
 import com.BEProjects.url_shortener.domain.models.CreateUserCmd;
 import com.BEProjects.url_shortener.domain.models.Role;
 import com.BEProjects.url_shortener.domain.services.UserService;

@@ -13,10 +13,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import static com.BEProjects.url_shortener.domain.services.RandomUtils.generateRandomShortKey;
 
 
-import java.security.SecureRandom;
 import java.time.Instant;
+
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
@@ -33,7 +34,8 @@ public class ShortUrlService {
     public ShortUrlService(ShortUrlRepository shortUrlRepository,
                            EntityMapper entityMapper,
                            ApplicationProperties applicationProperties,
-                           UserRepository userRepository) {
+                           UserRepository userRepository,
+                           RandomUtils randomUtils) {
         this.shortUrlRepository = shortUrlRepository;
         this.entityMapper = entityMapper;
         this.applicationProperties = applicationProperties;
@@ -62,8 +64,9 @@ public class ShortUrlService {
                 throw new RuntimeException("Invalid URL " + cmd.originalUrl());
             }
         }
-        var shortUrl = new ShortUrl();
         var shortKey = generateUniqueShortKey();
+        var shortUrl = new ShortUrl();
+        shortUrl.setOriginalUrl(cmd.originalUrl());
         shortUrl.setShortKey(shortKey);
         if(cmd.userId() == null) {
             shortUrl.setCreatedBy(null);
@@ -76,7 +79,6 @@ public class ShortUrlService {
             shortUrl.setExpiresAt(cmd.expirationInDays() != null ? Instant.now().plus(cmd.expirationInDays(), ChronoUnit.DAYS)
                                                                  : null);
         }
-        shortUrl.setOriginalUrl(cmd.originalUrl());
         shortUrl.setCreatedAt(Instant.now());
         shortUrl.setClickCount(0L);
         shortUrlRepository.save(shortUrl);
@@ -87,22 +89,10 @@ public class ShortUrlService {
     public String generateUniqueShortKey() {
         String shortKey;
         do {
-            shortKey = generateShortKey();
+            shortKey = generateRandomShortKey();
         }
         while (shortUrlRepository.existsByShortKey(shortKey));
         return shortKey;
-    }
-
-    private static final String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    private static final int SHORT_KEY_LENGTH = 6;
-    private static final SecureRandom random = new SecureRandom();
-
-    public String generateShortKey() {
-        StringBuilder sb = new StringBuilder(SHORT_KEY_LENGTH);
-        for (int i = 0; i < SHORT_KEY_LENGTH; i++) {
-            sb.append(characters.charAt(random.nextInt(characters.length())));
-        }
-        return sb.toString();
     }
 
     @Transactional

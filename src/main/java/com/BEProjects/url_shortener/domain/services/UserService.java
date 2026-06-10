@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -35,5 +36,9 @@ public class UserService {
         user.setRole(cmd.role());
         user.setCreatedAt(Instant.now());
         userRepository.save(user);
+    }
+
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }
