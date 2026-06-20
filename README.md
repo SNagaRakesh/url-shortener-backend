@@ -26,7 +26,7 @@ The application allows users to convert long URLs into short, easy-to-share link
 
 ✅ Dockerized MySQL setup completed
 
-🚧 Application deployment in progress
+✅ Application successfully deployed to production environment
 
 🚧 Full application containerization planned
 
@@ -36,27 +36,59 @@ The application allows users to convert long URLs into short, easy-to-share link
 
 ### Home Page
 
-![Home Page](ScreenShots/home-page.png)
+![Home Page](ScreenShots/LocolhostScreenshots/home-page.png)
 
 ### Login Page
 
-![Login Page](ScreenShots/login-page.png)
+![Login Page](ScreenShots/LocolhostScreenshots/login-page.png)
 
 ### Registration Page
 
-![Registration Page](ScreenShots/register-page.png)
+![Registration Page](ScreenShots/LocolhostScreenshots/register-page.png)
 
 ### Create Short 
 
-![Create Short URL](ScreenShots/create-short-url.png)
+![Create Short URL](ScreenShots/LocolhostScreenshots/create-short-url.png)
 
 ### My URLs Dashboard
 
-![My URLs Dashboard](ScreenShots/my-urls.png)
+![My URLs Dashboard](ScreenShots/LocolhostScreenshots/my-urls.png)
 
 ### Admin Dashboard
 
-![Admin Dashboard](ScreenShots/admin-dashboard.png)
+![Admin Dashboard](ScreenShots/LocolhostScreenshots/admin-dashboard.png)
+
+---
+
+## Production Deployment
+
+### Deployment Dashboard
+
+![Deployment Dashboard](ScreenShots/DeployedScreenshots/Render-Deployment.png)
+
+### MySQL Instance - Railway
+
+![DB Instance Railway](ScreenShots/DeployedScreenshots/Railway-MySQL-DB-Istance.png)
+
+### Network Logs - Railway Instance
+
+![Network Logs](ScreenShots/DeployedScreenshots/My-Network-Logs-MySQL-DB.png)
+
+### Testing GET Request for Home Page - Postman API
+
+![Postman API GET Request](ScreenShots/DeployedScreenshots/SuccessCode-GET-PostManAPI.png)
+
+### Testing POST Request for Short URL Creation - Postman API
+
+![Postman AP POST Request](ScreenShots/DeployedScreenshots/SuccessCoce-POST-PostManAPI.png)
+
+### Home Page After Deployment
+
+![Home Page aftet Deployment](ScreenShots/DeployedScreenshots/HomePage.png)
+
+### Admin Dashboard After Deployment
+
+![Admin Dashboard After Deployment](ScreenShots/DeployedScreenshots/AdminDashboard.png)
 
 ---
 
@@ -260,6 +292,29 @@ http://localhost:8080
 
 ---
 
+## Production Deployment Experience
+
+One of the goals of this project was to understand how a Spring Boot application behaves in a production environment compared to a local development environment.
+
+To achieve this, the application was successfully deployed to a cloud platform and connected to a cloud-hosted MySQL database.
+
+During deployment, I gained practical experience with:
+
+* Environment-specific application configuration
+* Externalizing sensitive values using environment variables
+* Managing separate local and production configurations
+* Cloud database connectivity
+* Deployment troubleshooting and validation
+
+The deployment was successfully tested and verified in a production environment.
+
+Since this project was created primarily for learning purposes, the cloud database instance was later suspended to avoid recurring infrastructure costs after the deployment objectives were completed.
+
+This deployment experience provided valuable exposure to real-world application hosting and configuration management practices.
+
+
+---
+
 ## Flyway Migrations
 
 Database schema creation and updates are managed using Flyway migrations.
@@ -296,6 +351,7 @@ Key concepts explored during development:
 * Docker fundamentals.
 * Database design and relationships.
 * Applying Object-Oriented Programming principles in a production-style application.
+* Production deployment and environment configuration management.
 
 The biggest challenge throughout the project was maintaining consistency and showing up every day to continue learning, building, and improving the application.
 
